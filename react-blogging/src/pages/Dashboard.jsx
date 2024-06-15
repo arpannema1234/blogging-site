@@ -6,7 +6,14 @@ import "react-loading-skeleton/dist/skeleton.css";
 import useUser from "../hooks/useUser";
 import { toast } from "react-toastify";
 const tableList = ["S.No", "Thumbnail", "Title", "Date", "Action"];
+function formatDate(timestamp) {
+  const date = new Date(timestamp);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() returns 0-based month
+  const year = date.getFullYear();
 
+  return `${day}-${month}-${year}`;
+}
 export default function Dashboard() {
   const [userData, setUserData] = useState({});
   const [userBlogs, setUserBlogs] = useState([]);
@@ -14,6 +21,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(userBlogs);
     async function getUserData() {
       if (user) {
         try {
@@ -129,9 +137,16 @@ export default function Dashboard() {
                         className="px-6 py-4 cursor-pointer"
                         onClick={() => navigate(`/blog/${blog._id}`)}
                       >
-                        {Date.now()}
+                        {(blog.date && formatDate(blog.date)) ||
+                          formatDate(Date.now())}
                       </td>
-                      <td className="px-6 py-4">
+                      <td>
+                        <button
+                          className="px-4 py-1 rounded-lg text-white font-bold bg-blue-600 mr-10"
+                          onClick={() => navigate(`/edit-blog/${blog._id}`)}
+                        >
+                          Edit
+                        </button>
                         <button
                           className="px-4 py-1 rounded-lg text-white font-bold bg-red-500"
                           onClick={() => deleteBlog(blog._id)}

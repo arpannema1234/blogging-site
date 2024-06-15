@@ -43,7 +43,7 @@ export default function BlogComponent() {
         </div>
         {(blog && (
           <p
-            className="text-base md:text-lg"
+            className="text-base md:text-lg text-justify"
             dangerouslySetInnerHTML={{ __html: blog.content }}
           />
         )) || <Skeleton count={6} />}

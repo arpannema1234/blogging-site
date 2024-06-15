@@ -1,37 +1,52 @@
-import React, { useContext, useRef, useState } from "react";
-import JoditEditor from "jodit-react";
-import { toast } from "react-toastify";
-import axios from "axios";
-import useUser from "../hooks/useUser";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import HomeContext from "../store/home-context";
-import { useNavigate } from "react-router-dom";
+import useUser from "../hooks/useUser";
+import JoditEditor from "jodit-react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-export default function CreateBlog() {
-  const editor = useRef(null);
-  const [image, setImage] = useState(null);
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
-  const { user } = useUser();
-  const ctx = useContext(HomeContext);
+export default function EditBlog() {
   const navigate = useNavigate();
+  const editor = useRef();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [image, setImage] = useState(null);
+  const [imageURL, setImageURL] = useState("");
+  const ctx = useContext(HomeContext);
+  const { user } = useUser();
+  const { blogid } = useParams();
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    let tempBlog = ctx.blogs.find((x) => x._id === blogid);
+    if (!tempBlog) {
+      ctx.setBlogId(blogid);
+    } else {
+      setTitle(tempBlog.title);
+      setContent(tempBlog.content);
+      setImageURL(tempBlog.images);
+    }
+  }, [blogid, ctx.blogs]);
+
+  function handleSubmit(e) {
     e.preventDefault();
     if (user) {
       saveBlog();
     } else {
       toast.info("Please Login to Post a Blog");
     }
-  };
+  }
 
   const saveBlog = async () => {
     const data = new FormData();
-    data.append("file", image);
+    if (image) {
+      data.append("file", image);
+    }
     data.append("content", content);
     data.append("title", title);
 
     try {
-      if (!image) {
+      if (!image && !imageURL) {
         return toast.error("Please Upload Image");
       }
       const token = await user.getIdToken();
@@ -70,11 +85,26 @@ export default function CreateBlog() {
           <label htmlFor="thumbnail" className="block mb-1">
             Upload Thumbnail
           </label>
+          {imageURL && (
+            <div className="mb-5">
+              <img src={imageURL} alt="Current Thumbnail" className="mb-2" />
+              <button
+                type="button"
+                onClick={() => setImageURL("")}
+                className="py-1 px-2 bg-red-600 hover:bg-red-800 rounded text-white"
+              >
+                Remove Image
+              </button>
+            </div>
+          )}
           <input
             type="file"
             id="thumbnail"
             className="text-white mb-5"
-            onChange={(e) => setImage(e.target.files[0])}
+            onChange={(e) => {
+              setImage(e.target.files[0]);
+              setImageURL("");
+            }}
           />
         </div>
         <div>

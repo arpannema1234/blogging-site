@@ -65,17 +65,17 @@ function Navbar() {
     <nav className="bg-black text-white flex justify-between align-middle relative">
       <Link
         to="/"
-        className="py-6 sm:text-base md:text-2xl font-semibold ml-4 cursor-pointer"
+        className="py-6 text-sm sm:text-base md:text-2xl font-semibold ml-4 cursor-pointer"
       >
         Blogging Site
       </Link>
-      <div className="w-[30%] xs:w-[40%] sm:w-[50%] flex align-middle relative">
+      <div className="w-[25%] xs:w-[40%] sm:w-[50%] flex align-middle relative">
         <form className="w-full self-center" onSubmit={handleSubmit}>
           <input
             type="search"
             value={search}
             onChange={handleSearch}
-            className="w-full bg-gray-500 rounded-xl p-2 text-lg outline-none "
+            className="w-full bg-gray-500 rounded-xl sm:p-2 p-1 text-lg outline-none "
             placeholder="Search Query"
           />
           {search !== "" && (

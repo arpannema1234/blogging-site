@@ -14,6 +14,7 @@ import CreateBlog from "./components/CreateBlog.jsx";
 import Home from "./pages/Home.jsx";
 import { HomeContextProvider } from "./store/home-context.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import EditBlog from "./components/EditBlog.jsx";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "/blog/:blogid", element: <Blog /> },
       { path: "/create-blog", element: <CreateBlog /> },
+      { path: "/edit-blog/:blogid", element: <EditBlog /> },
       { path: "/dashboard", element: <Dashboard /> },
       { path: "/login", element: <Login /> },
       { path: "/create-account", element: <CreateAccount /> },
