@@ -54,12 +54,19 @@ A full-featured blogging platform where users can create, read, update, and dele
 Create a `.env` file in the root of your project and add the following environment variables:
 
 NODE_ENV=development
+
 PORT=8080
+
 MONGO_URL=your_mongodb_url
+
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+
 CLOUDINARY_API_KEY=your_cloudinary_api_key
+
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
 ORIGIN1=your_first_allowed_origin
+
 ORIGIN2=your_second_allowed_origin
 
 ## Installation
