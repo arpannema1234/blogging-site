@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://blogging-site-3qdx.onrender.com/api/$1"
+    }
+  ]
+}
