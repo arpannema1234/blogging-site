@@ -240,7 +240,7 @@ app.post("/api/edit-blog/:blogid", upload.single("file"), async (req, res) => {
     const { blogid } = req.params;
     let result;
     if (file) {
-      const match = imageUrl.match(/\/v\d+\/([^\.]+)/);
+      const match = imageURL.match(/\/v\d+\/([^\.]+)/);
       const publicId = match ? match[1] : null;
       await cloudinary.uploader.destroy(publicId);
       result = await cloudinary.uploader.upload(file.path, {
