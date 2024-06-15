@@ -15,6 +15,7 @@ import Home from "./pages/Home.jsx";
 import { HomeContextProvider } from "./store/home-context.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import EditBlog from "./components/EditBlog.jsx";
+import NotFound from "./components/NotFound.jsx";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/create-account", element: <CreateAccount /> },
     ],
+    errorElement: <NotFound />,
   },
 ]);
 

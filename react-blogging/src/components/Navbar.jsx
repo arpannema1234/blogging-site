@@ -7,15 +7,17 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import Writeicon from "../UI/WriteIcon";
 function Navbar() {
-  const { user, isLoading } = useUser();
+  const { user } = useUser();
   const [search, setSearch] = useState("");
   const [searchList, setSearchList] = useState([]);
   const [menu, setMenu] = useState(false);
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
     let cancel;
     async function getSearchResult() {
+      setLoading(true);
       try {
         const response = await axios({
           method: "GET",
@@ -25,9 +27,10 @@ function Navbar() {
         });
 
         setSearchList(response.data);
+        setLoading(false);
       } catch (error) {
         if (axios.isCancel(error)) return;
-        console.error(error);
+        toast.error(error.message || "Something Went Wrong");
       }
     }
     if (search && search.trim()) {
@@ -43,15 +46,11 @@ function Navbar() {
     event.preventDefault();
   }
   function logoutHandler() {
-    try {
-      signOut(getAuth());
-      if (location.pathname === "/dashboard") {
-        navigate("/");
-      }
-      toast.success("Logged Out Successfully");
-    } catch (e) {
-      toast.error("Error in Logging Out");
+    signOut(getAuth());
+    if (location.pathname === "/dashboard") {
+      navigate("/");
     }
+    toast.success("Logged Out Successfully");
   }
   function handleSearch(event) {
     setSearch(event.target.value);
@@ -79,7 +78,11 @@ function Navbar() {
             placeholder="Search Query"
           />
           {search !== "" && (
-            <SearchModal searchList={searchList} setSearch={setSearch} />
+            <SearchModal
+              searchList={searchList}
+              setSearch={setSearch}
+              loading={loading}
+            />
           )}
         </form>
       </div>

@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import useUser from "../hooks/useUser";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const HomeContext = createContext({
   homeBlogs: [],
@@ -32,9 +33,14 @@ export function HomeContextProvider({ children }) {
         });
         setHomeBlogs((prev) => [...prev, ...response.data]);
         if (hasMore && response.data.length === 0) setHasMore(false);
-      } catch (error) {
-        if (axios.isCancel(error)) return;
-        console.error(error);
+      } catch (err) {
+        if (axios.isCancel(err)) return;
+        toast.error("An error Occured", {
+          autoClose: false,
+          closeButton: false,
+          closeOnClick: false,
+          draggable: false,
+        });
       }
     }
     getAllBlogs();
@@ -61,8 +67,12 @@ export function HomeContextProvider({ children }) {
             }
           });
         } catch (error) {
-          toast.error("Error in fetching the blog");
-          console.error(error);
+          toast.error("Error in fetching the blog", {
+            autoClose: false,
+            closeButton: false,
+            closeOnClick: false,
+            draggable: false,
+          });
         }
       }
       getBlog();

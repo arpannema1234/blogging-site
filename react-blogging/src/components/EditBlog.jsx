@@ -13,6 +13,7 @@ export default function EditBlog() {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [imageURL, setImageURL] = useState("");
+  const [prevImg, setPrevImg] = useState("");
   const ctx = useContext(HomeContext);
   const { user } = useUser();
   const { blogid } = useParams();
@@ -22,6 +23,7 @@ export default function EditBlog() {
     if (!tempBlog) {
       ctx.setBlogId(blogid);
     } else {
+      setPrevImg(tempBlog.images);
       setTitle(tempBlog.title);
       setContent(tempBlog.content);
       setImageURL(tempBlog.images);
@@ -41,6 +43,7 @@ export default function EditBlog() {
     const data = new FormData();
     if (image) {
       data.append("file", image);
+      data.append("imageURL", prevImg);
     }
     data.append("content", content);
     data.append("title", title);
@@ -54,11 +57,24 @@ export default function EditBlog() {
         authtoken: token,
         "Content-Type": "multipart/form-data",
       };
-      const response = await axios.post("/api/blogs", data, { headers });
+      const response = await axios.post(`/api/edit-blog/${blogid}`, data, {
+        headers,
+      });
       console.log(response.data);
-      const { _id } = response.data;
-      ctx.setBlogs((prev) => [...prev, response.data]);
-      navigate(`/blog/${_id}`);
+      const blog = ctx.blogs.find((x) => x._id === blogid);
+      if (blog) {
+        ctx.setBlogs((prev) => {
+          const newBlogs = [...prev];
+          return newBlogs.map((blog) => {
+            if (blog._id === blogid) return response.data;
+            return blog;
+          });
+        });
+      } else {
+        ctx.setBlogs((prev) => [...prev, response.data]);
+      }
+
+      navigate(`/blog/${blogid}`);
       toast.success("Blog posted successfully!");
     } catch (error) {
       console.log(error);
@@ -106,6 +122,15 @@ export default function EditBlog() {
               setImageURL("");
             }}
           />
+          {image && (
+            <div className="mb-5 w-52">
+              <img
+                src={URL.createObjectURL(image)}
+                alt="Image Preview"
+                className="w-full h-full aspect-square"
+              />
+            </div>
+          )}
         </div>
         <div>
           <label htmlFor="post-content" className="block mb-1">

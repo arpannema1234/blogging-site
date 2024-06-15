@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 export default function CreateBlog() {
   const editor = useRef(null);
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const { user } = useUser();
@@ -22,6 +23,12 @@ export default function CreateBlog() {
     } else {
       toast.info("Please Login to Post a Blog");
     }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+    setImagePreview(URL.createObjectURL(file));
   };
 
   const saveBlog = async () => {
@@ -73,9 +80,18 @@ export default function CreateBlog() {
           <input
             type="file"
             id="thumbnail"
-            className="text-white mb-5"
-            onChange={(e) => setImage(e.target.files[0])}
+            className="text-white mb-5 md:text-base text-xs"
+            onChange={handleImageChange}
           />
+          {imagePreview && (
+            <div className="mb-5 w-52">
+              <img
+                src={imagePreview}
+                alt="Image Preview"
+                className="w-full h-full aspect-square"
+              />
+            </div>
+          )}
         </div>
         <div>
           <label htmlFor="post-content" className="block mb-1">

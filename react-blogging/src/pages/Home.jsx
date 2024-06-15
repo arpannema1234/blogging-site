@@ -8,12 +8,14 @@ export default function Home() {
   const observer = useRef();
   const length = hctx.homeBlogs.length;
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setLoading((prev) => !prev);
     if (!hctx.hasMore) {
       setLoading(false);
     }
   }, [length, hctx.hasMore]);
+
   const lastBlog = useCallback(
     (node) => {
       if (hctx.hasMore) {

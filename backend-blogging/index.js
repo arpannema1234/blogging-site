@@ -116,7 +116,7 @@ app.get("/api/blog/search", async (req, res) => {
         $project: {
           title: 1,
           username: 1,
-          content: { $substr: ["$content", 0, 200] },
+          content: 1,
           images: 1,
           _id: 1,
         },
@@ -232,9 +232,43 @@ app.delete("/api/blog/:blogid", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-// app.post("/api/edit-blog/:blogid", upload.single("file"),async (req, res) => {
-
-// })
+app.post("/api/edit-blog/:blogid", upload.single("file"), async (req, res) => {
+  try {
+    const { title, content, imageURL } = req.body;
+    const file = req.file;
+    const { email } = req.user;
+    const { blogid } = req.params;
+    let result;
+    if (file) {
+      const match = imageUrl.match(/\/v\d+\/([^\.]+)/);
+      const publicId = match ? match[1] : null;
+      await cloudinary.uploader.destroy(publicId);
+      result = await cloudinary.uploader.upload(file.path, {
+        folder: "Blog_Thumnail",
+      });
+    }
+    const username = await getUsername(email);
+    let changes;
+    if (file) {
+      changes = { $set: { title, content, images: result.secure_url } };
+    } else {
+      changes = { $set: { title, content } };
+    }
+    const blog = await Blogs.findOneAndUpdate(
+      {
+        _id: blogid,
+        username,
+      },
+      changes,
+      { new: true }
+    );
+    if (blog) res.status(201).json(blog);
+    else throw new Error("Wrong request");
+  } catch (error) {
+    console.error("Error saving blog:", error);
+    res.status(500).json({ error: error.message || "Internal Server Error" });
+  }
+});
 app.post("/api/blog/:blogid/comment", async (req, res) => {
   const { blogid } = req.params;
   const { comment } = req.body;
