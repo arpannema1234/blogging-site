@@ -23,9 +23,10 @@ export default function SearchCard({ id, title, content, setSearch, image }) {
         <div className="text-sm md:text-base lg:text-lg font-semibold line-clamp-1 my-auto">
           {title}
         </div>
-        <div className="text-sm md:text-base lg:text-lg line-clamp-1">
-          {content}
-        </div>
+        <div
+          className="text-sm md:text-base lg:text-lg line-clamp-1"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
       </div>
     </div>
   );

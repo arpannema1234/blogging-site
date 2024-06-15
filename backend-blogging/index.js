@@ -27,7 +27,7 @@ const prodOrigins = [process.env.ORIGIN1, process.env.ORIGIN2];
 const devOrigins = ["http://localhost:5173"];
 const allowedOrigins =
   process.env.NODE_ENV === "production" ? prodOrigins : devOrigins;
-
+console.log(allowedOrigins);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -231,7 +231,9 @@ app.delete("/api/blog/:blogid", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+// app.post("/api/edit-blog/:blogid", upload.single("file"),async (req, res) => {
 
+// })
 app.post("/api/blog/:blogid/comment", async (req, res) => {
   const { blogid } = req.params;
   const { comment } = req.body;
