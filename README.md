@@ -23,36 +23,6 @@ A full-featured blogging platform where users can create, read, update, and dele
 
 Create a `.env` file in the root of your project and add the following environment variables:
 
-Here's a sample README.md file for your blogging site project:
-
-markdown
-Copy code
-
-# Blogging Site
-
-A full-featured blogging platform where users can create, read, update, and delete blog posts. Users can also comment on posts and upvote or downvote them.
-
-## Features
-
-- User authentication and authorization
-- Create, read, update, and delete blog posts
-- Comment on blog posts
-- Upvote and downvote blog posts
-- Search for blog posts
-- Upload images for blog posts using Cloudinary
-
-## Tech Stack
-
-- **Backend**: Node.js, Express.js, MongoDB, Mongoose
-- **Authentication**: Firebase Authentication
-- **File Storage**: Cloudinary
-- **Frontend**: React (Not included in this repository)
-- **Other**: Multer (for file uploads), CORS, dotenv
-
-## Environment Variables
-
-Create a `.env` file in the root of your project and add the following environment variables:
-
 NODE_ENV=development
 
 PORT=8080
