@@ -301,19 +301,19 @@ app.put("/api/blog/:blogid/upvote", async (req, res) => {
         if (downvoted) {
           changes = {
             ...changes,
-            $inc: { downvotes: -1 },
+            $inc: { downvotes: -1, upvotes: 1 },
             $pull: { downvoteIds: uid },
           };
         }
+        console.log(changes);
         let updatedBlog = await Blogs.findOneAndUpdate(
           { _id: blogid },
           changes,
           { new: true }
         );
         updatedBlog = updatedBlog.toObject();
-        updatedBlog.canDownvote = true;
-        updatedBlog.canUpvote = false;
-        res.json(updatedBlog);
+        const result = { ...updatedBlog, canDownvote: true, canUpvote: false };
+        res.json(result);
       } else {
         let updatedBlog = await Blogs.findOneAndUpdate(
           { _id: blogid },
@@ -321,9 +321,8 @@ app.put("/api/blog/:blogid/upvote", async (req, res) => {
           { new: true }
         );
         updatedBlog = updatedBlog.toObject();
-        updatedBlog.canDownvote = true;
-        updatedBlog.canUpvote = true;
-        res.json(updatedBlog);
+        const result = { ...updatedBlog, canDownvote: true, canUpvote: true };
+        res.json(result);
       }
     } else {
       res.status(404).json({ message: "Blog does not exist" });
@@ -348,7 +347,7 @@ app.put("/api/blog/:blogid/downvote", async (req, res) => {
         if (upvoted) {
           changes = {
             ...changes,
-            $inc: { upvotes: -1 },
+            $inc: { upvotes: -1, downvotes: 1 },
             $pull: { upvoteIds: uid },
           };
         }
@@ -358,9 +357,8 @@ app.put("/api/blog/:blogid/downvote", async (req, res) => {
           { new: true }
         );
         updatedBlog = updatedBlog.toObject();
-        updatedBlog.canDownvote = false;
-        updatedBlog.canUpvote = true;
-        res.json(updatedBlog);
+        const result = { ...updatedBlog, canDownvote: false, canUpvote: true };
+        res.json(result);
       } else {
         let updatedBlog = await Blogs.findOneAndUpdate(
           { _id: blogid },
@@ -368,9 +366,8 @@ app.put("/api/blog/:blogid/downvote", async (req, res) => {
           { new: true }
         );
         updatedBlog = updatedBlog.toObject();
-        updatedBlog.canDownvote = true;
-        updatedBlog.canUpvote = true;
-        res.json(updatedBlog);
+        const result = { ...updatedBlog, canDownvote: true, canUpvote: true };
+        res.json(result);
       }
     } else {
       res.status(404).json({ message: "Blog does not exist" });
