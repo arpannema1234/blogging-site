@@ -5,14 +5,19 @@ import src from "../assets/BS-logo.png";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function Login() {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("test@test.com");
+  const [password, setPassword] = useState("test@123");
   const navigate = useNavigate();
   async function submissionHanndler(event) {
     try {
       event.preventDefault();
+      const id = toast.loading("Logging...");
       await signInWithEmailAndPassword(getAuth(), email, password);
-      toast.success("Logged In Successfully");
+      toast.update(id, {
+        render: "Logged In Successfully",
+        type: "success",
+        isLoading: false,
+      });
       navigate("/");
     } catch (e) {
       toast.error("Invalid Email or Password");
@@ -45,6 +50,7 @@ export default function Login() {
             onChange={(e) => {
               setEmail(e.target.value);
             }}
+            value={email}
           />
           <label htmlFor="password" className="py-2">
             Password
@@ -57,6 +63,7 @@ export default function Login() {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
+            value={password}
           />
           <button
             type="submit"
