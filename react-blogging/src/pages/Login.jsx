@@ -17,6 +17,7 @@ export default function Login() {
         render: "Logged In Successfully",
         type: "success",
         isLoading: false,
+        autoClose: true,
       });
       navigate("/");
     } catch (e) {
