@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "http://blogging-app-env.eba-k3zypzkp.ap-south-1.elasticbeanstalk.com/api/$1"
+      "destination": "https://blogging-site-3qdx.onrender.com/api/$1"
     }
   ]
 }
