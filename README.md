@@ -26,6 +26,10 @@ A full-featured blogging platform where users can create, read, update, and dele
 
 ![image](https://github.com/user-attachments/assets/d446ec78-b4a6-4325-86cb-fbb264edfcee)
 
+# Writing Blog page
+
+![image](https://github.com/user-attachments/assets/4f38b586-9cd4-45ca-a32b-745684c673f6)
+
 ## Features
 
 - User authentication and authorization
