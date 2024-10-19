@@ -2,17 +2,28 @@
 
 A full-featured blogging platform where users can create, read, update, and delete blog posts. Users can also comment on posts and upvote or downvote them.
 
-Log In Page
+# Log In Page
+
 ![image](https://github.com/user-attachments/assets/c0fae1a7-3477-44f9-b240-3e4af119c3d2)
-Homepage
+
+# Homepage
+
 ![image](https://github.com/user-attachments/assets/80ed0148-e699-40ad-9fb7-9be03b96fc58)
-Blog Page
+
+# Blog Page
+
 ![image](https://github.com/user-attachments/assets/d514912f-554b-4d70-8105-05b29d1c1eaa)
-Comment and unpvoting and downvoting
+
+#Comment and unpvoting and downvoting
+
 ![image](https://github.com/user-attachments/assets/89af73b9-13e1-450a-a3d1-4573c8af75ee)
-Search Feature
+
+# Search Feature
+
 ![image](https://github.com/user-attachments/assets/4e7a667c-edd4-428a-a018-1acc46f46b57)
-User Page
+
+# User Page
+
 ![image](https://github.com/user-attachments/assets/d446ec78-b4a6-4325-86cb-fbb264edfcee)
 
 ## Features
